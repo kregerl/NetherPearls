@@ -7,11 +7,12 @@
 	version="1.0"
 	displayName="Netherpearls"
 	displayURL=""
-	issueTrackerURL=""
-	logoFile=""
+	issueTrackerURL="https://github.com/kregerl/NetherPearls/issues"
+	logoFile="netherPearlLogo.png"
 	credits=""
 	authors="AreUThreateningMe"
 	description='''
+Nether pearls work the same way as ender pearls, except the player is placed at their coordinated in the nether / overworld depending on the players current dimension.
 '''
 
 [[dependencies.netherpearls]]
