@@ -13,14 +13,12 @@ public class NetherPearlTeleporter implements ITeleporter {
 	@Override
 	public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw,
 			Function<Boolean, Entity> repositionEntity) {
-//		return ITeleporter.super.placeEntity(entity, currentWorld, destWorld, yaw, repositionEntity);
 		return repositionEntity.apply(false);
 	}
 
 	@Override
 	public PortalInfo getPortalInfo(Entity entity, ServerWorld destWorld,
 			Function<ServerWorld, PortalInfo> defaultPortalInfo) {
-//		return ITeleporter.super.getPortalInfo(entity, destWorld, defaultPortalInfo);
 		return new PortalInfo(entity.position(), Vector3d.ZERO, entity.yRot, entity.xRot);
 	}
 

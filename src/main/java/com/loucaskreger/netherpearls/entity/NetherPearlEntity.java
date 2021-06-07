@@ -94,6 +94,8 @@ public class NetherPearlEntity extends ProjectileItemEntity {
 				}
 
 				if (destWorld != null) {
+					// This is required since an entity cannot be modified during a tick, event
+					// waits until end of tick.
 					EventSubscriber.stagedTeleports.add(new TeleportContext(destWorld, player, pos));
 				}
 			}
