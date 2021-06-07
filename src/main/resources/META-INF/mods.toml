@@ -1,0 +1,29 @@
+	modLoader="javafml"
+	loaderVersion="[36,)"
+	license="MIT"
+	
+[[mods]]
+	modId="netherpearls"
+	version="1.0"
+	displayName="Netherpearls"
+	displayURL=""
+	issueTrackerURL=""
+	logoFile=""
+	credits=""
+	authors="AreUThreateningMe"
+	description='''
+'''
+
+[[dependencies.netherpearls]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.netherpearls]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5]"
+    ordering="AFTER"
+    side="BOTH"
