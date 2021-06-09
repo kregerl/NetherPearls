@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" x ",
+		"xyx",
+		" x "
+	],
+	"key": {
+		"x":
+		{
+			"item": "minecraft:blaze_powder"
+		},
+		"y":
+		{
+			"item": "minecraft:ender_pearl"
+		}		
+	},
+	"result": {
+		"item": "netherpearls:nether_pearl",
+		"count": 1
+	}
+}

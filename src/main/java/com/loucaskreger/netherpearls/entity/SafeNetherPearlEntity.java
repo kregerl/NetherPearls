@@ -2,10 +2,12 @@ package com.loucaskreger.netherpearls.entity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import com.loucaskreger.netherpearls.EventSubscriber;
 import com.loucaskreger.netherpearls.init.ModEntityTypes;
 import com.loucaskreger.netherpearls.init.ModItems;
 import com.loucaskreger.netherpearls.world.teleporter.TeleportContext;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -17,6 +19,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -26,25 +29,25 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.registries.ForgeRegistries;
 
-public class NetherPearlEntity extends ProjectileItemEntity {
-
+public class SafeNetherPearlEntity extends ProjectileItemEntity {
 	private static final RegistryKey<World> OVERWORLD = RegistryKey.create(Registry.DIMENSION_REGISTRY,
 			DimensionType.OVERWORLD_EFFECTS);
 	private static final RegistryKey<World> NETHER = RegistryKey.create(Registry.DIMENSION_REGISTRY,
 			DimensionType.NETHER_EFFECTS);
 
-	public NetherPearlEntity(World world, LivingEntity livingEntity) {
-		super(ModEntityTypes.NETHER_PEARL.get(), livingEntity, world);
+	public SafeNetherPearlEntity(World world, LivingEntity livingEntity) {
+		super(ModEntityTypes.SAFE_NETHER_PEARL.get(), livingEntity, world);
 	}
 
-	public NetherPearlEntity(EntityType<? extends NetherPearlEntity> entityType, World world) {
+	public SafeNetherPearlEntity(EntityType<? extends SafeNetherPearlEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
 	@Override
 	protected Item getDefaultItem() {
-		return ModItems.NETHER_PEARL.get();
+		return ModItems.SAFE_NETHER_PEARL.get();
 	}
 
 	@Nonnull
@@ -95,8 +98,13 @@ public class NetherPearlEntity extends ProjectileItemEntity {
 
 				if (destWorld != null) {
 					// This is required since an entity cannot be modified during a tick, event
-					// waits until end of tick.
-					EventSubscriber.stagedTeleports.add(new TeleportContext(destWorld, player, pos, null, false));
+					String tag = null;
+					if (this.getItem().getOrCreateTag().contains("block")) {
+						tag = this.getItem().getOrCreateTag().getString("block");
+					}
+
+					EventSubscriber.stagedTeleports.add(new TeleportContext(destWorld, player, pos,
+							tag != null ? ForgeRegistries.BLOCKS.getValue(new ResourceLocation(tag)) : null, true));
 				}
 			}
 		}
@@ -124,5 +132,7 @@ public class NetherPearlEntity extends ProjectileItemEntity {
 
 		return super.changeDimension(world, teleporter);
 	}
-
+	
+	
+	
 }

@@ -1,18 +1,26 @@
 package com.loucaskreger.netherpearls.item;
 
-import com.loucaskreger.netherpearls.entity.NetherPearlEntity;
+import java.util.List;
+import com.loucaskreger.netherpearls.entity.SafeNetherPearlEntity;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 
-public class NetherPearlItem extends ModItem {
+public class SafeNetherPearlItem extends ModItem {
 
-	public NetherPearlItem() {
+	public SafeNetherPearlItem() {
 		super();
 	}
 
@@ -22,7 +30,7 @@ public class NetherPearlItem extends ModItem {
 				SoundEvents.ENDER_PEARL_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 		playerEntity.getCooldowns().addCooldown(this, 20);
 		if (!world.isClientSide) {
-			NetherPearlEntity netherPearlEntity = new NetherPearlEntity(world, playerEntity);
+			SafeNetherPearlEntity netherPearlEntity = new SafeNetherPearlEntity(world, playerEntity);
 			netherPearlEntity.setItem(itemstack);
 			netherPearlEntity.shootFromRotation(playerEntity, playerEntity.xRot, playerEntity.yRot, 0.0F, 1.5F, 1.0F);
 			world.addFreshEntity(netherPearlEntity);
@@ -35,6 +43,15 @@ public class NetherPearlItem extends ModItem {
 		}
 
 		return ActionResult.sidedSuccess(itemstack, world.isClientSide());
+	}
+
+	@Override
+	public void appendHoverText(ItemStack stack, World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+		CompoundNBT nbt = stack.getOrCreateTag();
+		ResourceLocation loc = new ResourceLocation(nbt.getString("block"));
+		ITextComponent textComponent = new TranslationTextComponent("contained.block").append(" ")
+				.append(ForgeRegistries.BLOCKS.getValue(loc).getName()).withStyle(TextFormatting.GOLD);
+		tooltip.add(textComponent);
 	}
 
 }
